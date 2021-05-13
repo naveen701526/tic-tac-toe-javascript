@@ -20,16 +20,20 @@ const winningMessageTextElement = document.querySelector(
 );
 const restartButton = document.getElementById('restartButton');
 
-
 startGame();
+
+restartButton.addEventListener('click', startGame);
 
 function startGame() {
     circleTurn = false;
     cellElements.forEach((cell) => {
+        cell.classList.remove(X_CLASS);
+        cell.classList.remove(CIRCLE_CLASS);
         cell.removeEventListener('click', handleClick);
         cell.addEventListener('click', handleClick, {once: true});
     });
     setBoardHoverClass();
+    winningMessageElement.classList.remove('show');
 }
 
 function handleClick(e) {
@@ -57,6 +61,8 @@ function endGame(draw) {
         } Wins!`;
     }
     winningMessageElement.classList.add('show');
+    // if either win or draw condition is met
+    // then display the results of the game
 }
 
 function isDraw() {
@@ -66,6 +72,9 @@ function isDraw() {
             cell.classList.contains(CIRCLE_CLASS)
         );
     });
+    // this function checks whether all the grids
+    // in the board are filled with either x or o
+    // and declares draw if it's true
 }
 
 function setBoardHoverClass() {
