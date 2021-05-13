@@ -12,6 +12,7 @@ const WINNING_COMBINATIONS = [
 ];
 
 const cellElements = document.querySelectorAll('[data-cell]');
+const board = document.getElementById('board');
 let circleTurn;
 
 startGame();
@@ -22,14 +23,31 @@ function startGame() {
         cell.removeEventListener('click', handleClick);
         cell.addEventListener('click', handleClick, {once: true});
     });
+    setBoardHoverClass();
 }
 
 function handleClick(e) {
     const cell = e.target;
     const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS;
-    placeMark(cell, currentClass)
+    placeMark(cell, currentClass);
+    swapTurns();
+    setBoardHoverClass();
+}
+
+function setBoardHoverClass() {
+    board.classList.remove(X_CLASS);
+    board.classList.remove(CIRCLE_CLASS);
+    if (circleTurn) {
+        board.classList.add(CIRCLE_CLASS);
+    } else {
+        board.classList.add(X_CLASS);
+    }
 }
 
 function placeMark(cell, currentClass) {
     cell.classList.add(currentClass);
+}
+
+function swapTurns() {
+    circleTurn = !circleTurn;
 }
