@@ -14,6 +14,12 @@ const WINNING_COMBINATIONS = [
 const cellElements = document.querySelectorAll('[data-cell]');
 const board = document.getElementById('board');
 let circleTurn;
+const winningMessageElement = document.getElementById('winningMessage');
+const winningMessageTextElement = document.querySelector(
+    '[data-winning-message-text]'
+);
+const restartButton = document.getElementById('restartButton');
+
 
 startGame();
 
@@ -30,8 +36,36 @@ function handleClick(e) {
     const cell = e.target;
     const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS;
     placeMark(cell, currentClass);
-    swapTurns();
-    setBoardHoverClass();
+    // after click on grid always check whether
+    // some condition (winning or draw) is met or not before swapping turns
+    if (checkWin(currentClass)) {
+        endGame(false);
+    } else if (isDraw()) {
+        endGame(true);
+    } else {
+        swapTurns();
+        setBoardHoverClass();
+    }
+}
+
+function endGame(draw) {
+    if (draw) {
+        winningMessageTextElement.innerText = 'Draw!';
+    } else {
+        winningMessageTextElement.innerText = `${
+            circleTurn ? "O's" : "X's"
+        } Wins!`;
+    }
+    winningMessageElement.classList.add('show');
+}
+
+function isDraw() {
+    return [...cellElements].every((cell) => {
+        return (
+            cell.classList.contains(X_CLASS) ||
+            cell.classList.contains(CIRCLE_CLASS)
+        );
+    });
 }
 
 function setBoardHoverClass() {
@@ -42,12 +76,35 @@ function setBoardHoverClass() {
     } else {
         board.classList.add(X_CLASS);
     }
+    // for each it will display the hover effect
+    // of the pieces in the game i.e. either x or o
 }
 
 function placeMark(cell, currentClass) {
     cell.classList.add(currentClass);
+    // this function will insert either x or o depends on
+    // the turn... inside board
 }
 
 function swapTurns() {
     circleTurn = !circleTurn;
+    // this function will change turns from x to o
+    // every time it's called
+}
+
+function checkWin(currentClass) {
+    return WINNING_COMBINATIONS.some((combination) => {
+        return combination.every((index) => {
+            return cellElements[index].classList.contains(currentClass);
+        });
+    });
+
+    /*how this function executes for one instance of winning combinations
+    [0, 1, 2].some([0, 1, 2].every(for every value 
+    check if it contains either x or o
+    for example take x
+    0 has class x true
+    1 has class x true
+    2 has class x true
+    true and true and true gives true hence we found the winning combinations))*/
 }
