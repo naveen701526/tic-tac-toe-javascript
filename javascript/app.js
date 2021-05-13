@@ -20,6 +20,13 @@ const winningMessageTextElement = document.querySelector(
 );
 const restartButton = document.getElementById('restartButton');
 
+if (localStorage.getItem('dark') !== null) {
+    document.body.classList.add('dark-mode');
+    darks = localStorage.getItem('dark');
+    document.querySelector('.fa-circle').classList.add('far');
+    document.querySelector('.fa-circle').classList.remove('fas');
+}
+
 startGame();
 
 restartButton.addEventListener('click', startGame);
@@ -117,3 +124,19 @@ function checkWin(currentClass) {
     2 has class x true
     true and true and true gives true hence we found the winning combinations))*/
 }
+
+const dark = document.querySelector('.dark');
+dark.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+
+    if (document.body.classList.contains('dark-mode')) {
+        document.querySelector('.fa-circle').classList.add('far');
+        document.querySelector('.fa-circle').classList.remove('fas');
+
+        localStorage.setItem('dark', 'far');
+    } else if (!document.body.classList.contains('dark-mode')) {
+        document.querySelector('.fa-circle').classList.add('fas');
+        document.querySelector('.fa-circle').classList.remove('far');
+        localStorage.removeItem('dark');
+    }
+});

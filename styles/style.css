@@ -7,11 +7,37 @@
 :root {
     --cell-size: 100px;
     --mark-size: calc(var(--cell-size) * 0.9);
-    --primary-color: black;
 }
 
 body {
     margin: 0;
+}
+
+.toggler {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+}
+
+.far {
+    color: whitesmoke;
+    transition: all 0.4s ease-in-out;
+}
+
+.fas {
+    color: #444;
+    transition: all 0.4s ease-in-out;
+}
+
+a {
+    text-decoration: none;
+}
+
+.dark-mode {
+    background-color: #444;
+    color: whitesmoke;
+    border: white;
+    transition: all 0.4s ease-in;
 }
 
 .board {
@@ -28,7 +54,7 @@ body {
 .cell {
     width: var(--cell-size);
     height: var(--cell-size);
-    border: 1px solid var(--primary-color);
+    border: 1px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
